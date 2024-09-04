@@ -1,11 +1,22 @@
-import { App, Stack, StackProps } from 'aws-cdk-lib';
+import { App, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
+import { AttributeType, Billing, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
 
-export class MyStack extends Stack {
-  constructor(scope: Construct, id: string, props: StackProps = {}) {
+interface AppSyncStackProps extends StackProps {
+  removalPolicy: RemovalPolicy;
+}
+
+export class AppSyncStack extends Stack {
+  constructor(scope: Construct, id: string, props: AppSyncStackProps) {
     super(scope, id, props);
 
-    // define resources here...
+    new TableV2(this, 'Orders', {
+      billing: Billing.onDemand(),
+      partitionKey: { name: 'PK', type: AttributeType.STRING },
+      sortKey: { name: 'SK', type: AttributeType.STRING },
+      removalPolicy: props.removalPolicy,
+      deletionProtection: props.removalPolicy === RemovalPolicy.DESTROY ? false : true,
+    });
   }
 }
 
@@ -17,7 +28,6 @@ const devEnv = {
 
 const app = new App();
 
-new MyStack(app, 'cdk-appsync-challenge-dev', { env: devEnv });
-// new MyStack(app, 'cdk-appsync-challenge-prod', { env: prodEnv });
+new AppSyncStack(app, 'AppSyncChallengeDev', { env: devEnv, removalPolicy: RemovalPolicy.DESTROY });
 
 app.synth();
