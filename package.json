@@ -1,5 +1,6 @@
 {
   "name": "cdk-appsync-challenge",
+  "description": "CDK AppSync API Challenge",
   "scripts": {
     "build": "npx projen build",
     "bump": "npx projen bump",
