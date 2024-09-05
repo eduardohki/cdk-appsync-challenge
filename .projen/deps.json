@@ -5,7 +5,23 @@
       "type": "build"
     },
     {
+      "name": "@aws-sdk/client-dynamodb",
+      "type": "build"
+    },
+    {
+      "name": "@aws-sdk/lib-dynamodb",
+      "type": "build"
+    },
+    {
       "name": "@faker-js/faker",
+      "type": "build"
+    },
+    {
+      "name": "@graphql-codegen/cli",
+      "type": "build"
+    },
+    {
+      "name": "@graphql-codegen/typescript",
       "type": "build"
     },
     {
@@ -84,11 +100,7 @@
       "type": "build"
     },
     {
-      "name": "@aws-sdk/client-dynamodb",
-      "type": "runtime"
-    },
-    {
-      "name": "@aws-sdk/lib-dynamodb",
+      "name": "@aws-appsync/utils",
       "type": "runtime"
     },
     {

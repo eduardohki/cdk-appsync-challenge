@@ -1,5 +1,6 @@
+import * as path from 'node:path';
 import { App, CfnOutput, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
-import { AuthorizationType, Definition, FieldLogLevel, GraphqlApi } from 'aws-cdk-lib/aws-appsync';
+import { AuthorizationType, Code, Definition, FieldLogLevel, FunctionRuntime, GraphqlApi } from 'aws-cdk-lib/aws-appsync';
 import { AttributeType, Billing, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
@@ -34,7 +35,7 @@ export class AppSyncStack extends Stack {
 
     const api = new GraphqlApi(this, 'Api', {
       name: 'Orders',
-      definition: Definition.fromFile('src/api/schema.graphql'),
+      definition: Definition.fromFile(path.join(__dirname, 'api/schema.graphql')),
       authorizationConfig: {
         defaultAuthorization: {
           authorizationType: AuthorizationType.API_KEY,
