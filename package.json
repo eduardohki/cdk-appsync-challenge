@@ -7,6 +7,7 @@
     "bundle": "npx projen bundle",
     "clobber": "npx projen clobber",
     "compile": "npx projen compile",
+    "db:seed": "npx projen db:seed",
     "default": "npx projen default",
     "deploy": "npx projen deploy",
     "deploy:hotswap": "npx projen deploy:hotswap",
@@ -30,6 +31,8 @@
     "projen": "npx projen"
   },
   "devDependencies": {
+    "@aws-sdk/client-cloudformation": "^3.645.0",
+    "@faker-js/faker": "^9.0.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^7",
@@ -49,6 +52,8 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.645.0",
+    "@aws-sdk/lib-dynamodb": "^3.645.0",
     "aws-cdk-lib": "^2.155.0",
     "constructs": "^10.0.5"
   },

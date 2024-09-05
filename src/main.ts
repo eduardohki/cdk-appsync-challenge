@@ -1,4 +1,4 @@
-import { App, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
+import { App, CfnOutput, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
 import { AttributeType, Billing, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
 
@@ -14,7 +14,7 @@ export class AppSyncStack extends Stack {
   constructor(scope: Construct, id: string, props: AppSyncStackProps) {
     super(scope, id, props);
 
-    new TableV2(this, 'Orders', {
+    const table = new TableV2(this, 'Orders', {
       billing: Billing.onDemand(),
       partitionKey: { name: 'PK', type: AttributeType.STRING },
       sortKey: { name: 'SK', type: AttributeType.STRING },
@@ -22,6 +22,12 @@ export class AppSyncStack extends Stack {
       // prevent accidental table deletion when the data is to be retained
       deletionProtection: props.removalPolicy === RemovalPolicy.DESTROY ? false : true,
     });
+
+    new CfnOutput(this, 'DynamoDBTableName', {
+      description: 'The name of the DynamoDB Table used as the the GraphQL API data source.',
+      value: table.tableName,
+    });
+
   }
 }
 
