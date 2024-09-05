@@ -1,6 +1,6 @@
 # Customer type has a one-to-many relationship with Order
 type Customer @model {
-	email: String!	# primary key
+	email: AWSEmail!	# primary key
 	fullName: String!
 	orders: [Order]
 		@connection(keyName: "byCustomer",fields: ["email"])
@@ -12,7 +12,7 @@ type Order @model
   id: ID!
   date: AWSDateTime!
   totalAmount: Float!  # Total amount to be calculated
-  customerEmail: String!  # Foreign key referencing the customer's email
+  customerEmail: AWSEmail!  # Foreign key referencing the customer's email
   customer: Customer @connection(fields: ["customerEmail"])
   products: [OrderProduct] @connection(keyName: "byOrder", fields: ["id"])
 }

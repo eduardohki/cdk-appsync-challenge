@@ -239,6 +239,192 @@ exports[`Snapshot 1`] = `
       },
       "Type": "Custom::LogRetention",
     },
+    "ApiOrderProductTypeOrderField805DE1A1": {
+      "DependsOn": [
+        "ApiSchema510EECD7",
+        "ApiTableDB4CD73A",
+      ],
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "ApiF70053CD",
+            "ApiId",
+          ],
+        },
+        "DataSourceName": "Table",
+        "FieldName": "order",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{
+    "version": "2018-05-29",
+    "operation": "Scan",
+    "limit": 1,
+    "filter": {
+        "expression": "begins_with(PK, :pkPrefix) AND SK = :skValue",
+        "expressionValues": {
+            ":pkPrefix": { "S": "CUSTOMER#" },
+            ":skValue": { "S": "ORDER#\${ctx.source.orderId}" }
+        }
+    }
+}
+",
+        "ResponseMappingTemplate": "#if($ctx.error)
+  $util.error($ctx.error.message, $ctx.error.type)
+#else
+  #if ($ctx.result.items.size() > 0)
+    $util.toJson($ctx.result.items[0])
+  #else
+    $util.toJson({})
+  #end
+#end
+",
+        "TypeName": "OrderProduct",
+      },
+      "Type": "AWS::AppSync::Resolver",
+    },
+    "ApiOrderProductTypeProductField34FAE850": {
+      "DependsOn": [
+        "ApiSchema510EECD7",
+        "ApiTableDB4CD73A",
+      ],
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "ApiF70053CD",
+            "ApiId",
+          ],
+        },
+        "DataSourceName": "Table",
+        "FieldName": "product",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{
+  "version" : "2018-05-29",
+  "operation" : "GetItem",
+  "key" : {
+    "PK" : { "S" : "PRODUCT#\${ctx.source.productId}" },
+    "SK" : { "S" : "PRODUCT#\${ctx.source.productId}" }
+  }
+}
+",
+        "ResponseMappingTemplate": "#if($ctx.error)
+  $util.error($ctx.error.message, $ctx.error.type)
+#else
+  $util.toJson($ctx.result)
+#end
+",
+        "TypeName": "OrderProduct",
+      },
+      "Type": "AWS::AppSync::Resolver",
+    },
+    "ApiOrderTypeCustomerField50E555BC": {
+      "DependsOn": [
+        "ApiSchema510EECD7",
+        "ApiTableDB4CD73A",
+      ],
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "ApiF70053CD",
+            "ApiId",
+          ],
+        },
+        "DataSourceName": "Table",
+        "FieldName": "customer",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{
+  "version" : "2018-05-29",
+  "operation" : "GetItem",
+  "key" : {
+    "PK" : { "S" : "CUSTOMER#\${ctx.source.customerEmail}" },
+    "SK" : { "S" : "CUSTOMER#\${ctx.source.customerEmail}" }
+  }
+}
+",
+        "ResponseMappingTemplate": "#if($ctx.error)
+  $util.error($ctx.error.message, $ctx.error.type)
+#else
+  $util.toJson($ctx.result)
+#end
+",
+        "TypeName": "Order",
+      },
+      "Type": "AWS::AppSync::Resolver",
+    },
+    "ApiOrderTypeProductsFieldE352192B": {
+      "DependsOn": [
+        "ApiSchema510EECD7",
+        "ApiTableDB4CD73A",
+      ],
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "ApiF70053CD",
+            "ApiId",
+          ],
+        },
+        "DataSourceName": "Table",
+        "FieldName": "products",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{
+  "version" : "2018-05-29",
+  "operation" : "Query",
+  "query" : {
+    "expression" : "PK = :pk and begins_with(SK, :productPrefix)",
+    "expressionValues" : {
+      ":pk" : { "S" : "ORDER#\${ctx.source.id}" },
+      ":productPrefix" : { "S" : "PRODUCT#" }
+    }
+  }
+}
+",
+        "ResponseMappingTemplate": "#if($ctx.error)
+  $util.error($ctx.error.message, $ctx.error.type)
+#else
+  $util.toJson($ctx.result.items)
+#end
+",
+        "TypeName": "Order",
+      },
+      "Type": "AWS::AppSync::Resolver",
+    },
+    "ApiOrdersQueryFB0B9C8D": {
+      "DependsOn": [
+        "ApiSchema510EECD7",
+        "ApiTableDB4CD73A",
+      ],
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "ApiF70053CD",
+            "ApiId",
+          ],
+        },
+        "DataSourceName": "Table",
+        "FieldName": "orders",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{
+  "version" : "2018-05-29",
+  "operation" : "Scan",
+  "filter" : {
+    "expression" : "begins_with(#SK, :orderPrefix)",
+    "expressionNames" : {
+      "#SK" : "SK"
+    },
+    "expressionValues" : {
+      ":orderPrefix" : { "S" : "ORDER#" }
+    }
+  }
+}
+",
+        "ResponseMappingTemplate": "#if($ctx.error)
+  $util.error($ctx.error.message, $ctx.error.type)
+#else
+  $util.toJson($ctx.result.items)
+#end
+",
+        "TypeName": "Query",
+      },
+      "Type": "AWS::AppSync::Resolver",
+    },
     "ApiSchema510EECD7": {
       "Properties": {
         "ApiId": {
@@ -249,7 +435,7 @@ exports[`Snapshot 1`] = `
         },
         "Definition": "# Customer type has a one-to-many relationship with Order
 type Customer @model {
-	email: String!	# primary key
+	email: AWSEmail!	# primary key
 	fullName: String!
 	orders: [Order]
 		@connection(keyName: "byCustomer",fields: ["email"])
@@ -261,7 +447,7 @@ type Order @model
   id: ID!
   date: AWSDateTime!
   totalAmount: Float!  # Total amount to be calculated
-  customerEmail: String!  # Foreign key referencing the customer's email
+  customerEmail: AWSEmail!  # Foreign key referencing the customer's email
   customer: Customer @connection(fields: ["customerEmail"])
   products: [OrderProduct] @connection(keyName: "byOrder", fields: ["id"])
 }
@@ -299,6 +485,89 @@ schema {
 ",
       },
       "Type": "AWS::AppSync::GraphQLSchema",
+    },
+    "ApiTableDB4CD73A": {
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "ApiF70053CD",
+            "ApiId",
+          ],
+        },
+        "DynamoDBConfig": {
+          "AwsRegion": {
+            "Ref": "AWS::Region",
+          },
+          "TableName": {
+            "Ref": "OrdersA9B65338",
+          },
+        },
+        "Name": "Table",
+        "ServiceRoleArn": {
+          "Fn::GetAtt": [
+            "ApiTableServiceRole131D7282",
+            "Arn",
+          ],
+        },
+        "Type": "AMAZON_DYNAMODB",
+      },
+      "Type": "AWS::AppSync::DataSource",
+    },
+    "ApiTableServiceRole131D7282": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "appsync.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ApiTableServiceRoleDefaultPolicyEB374EF8": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "OrdersA9B65338",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ApiTableServiceRoleDefaultPolicyEB374EF8",
+        "Roles": [
+          {
+            "Ref": "ApiTableServiceRole131D7282",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
       "DependsOn": [

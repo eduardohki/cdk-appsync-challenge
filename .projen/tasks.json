@@ -78,15 +78,6 @@
       ],
       "condition": "git diff --exit-code > /dev/null"
     },
-    "codegen": {
-      "name": "codegen",
-      "description": "Runs the code generation for our AppSync API based on our GraphQL schema.",
-      "steps": [
-        {
-          "exec": "npx graphql-codegen -c src/util/codegen.ts"
-        }
-      ]
-    },
     "compile": {
       "name": "compile",
       "description": "Only compile"
@@ -304,13 +295,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-sdk/client-cloudformation,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb,@faker-js/faker,@graphql-codegen/cli,@graphql-codegen/typescript,@types/jest,deployable-awscdk-app-ts,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,projen,ts-jest,ts-node,typescript,@aws-appsync/utils"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-sdk/client-cloudformation,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb,@faker-js/faker,@types/jest,deployable-awscdk-app-ts,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,projen,ts-jest,ts-node,typescript"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @aws-sdk/client-cloudformation @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb @faker-js/faker @graphql-codegen/cli @graphql-codegen/typescript @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk commit-and-tag-version deployable-awscdk-app-ts esbuild eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit projen ts-jest ts-node typescript @aws-appsync/utils aws-cdk-lib constructs"
+          "exec": "pnpm update @aws-sdk/client-cloudformation @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb @faker-js/faker @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk commit-and-tag-version deployable-awscdk-app-ts esbuild eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit projen ts-jest ts-node typescript aws-cdk-lib constructs"
         },
         {
           "exec": "npx projen"

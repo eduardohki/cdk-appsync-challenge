@@ -1,0 +1,12 @@
+{
+    "version": "2018-05-29",
+    "operation": "Scan",
+    "limit": 1,
+    "filter": {
+        "expression": "begins_with(PK, :pkPrefix) AND SK = :skValue",
+        "expressionValues": {
+            ":pkPrefix": { "S": "CUSTOMER#" },
+            ":skValue": { "S": "ORDER#${ctx.source.orderId}" }
+        }
+    }
+}

@@ -6,7 +6,6 @@
     "bump": "npx projen bump",
     "bundle": "npx projen bundle",
     "clobber": "npx projen clobber",
-    "codegen": "npx projen codegen",
     "compile": "npx projen compile",
     "db:seed": "npx projen db:seed",
     "default": "npx projen default",
@@ -36,8 +35,6 @@
     "@aws-sdk/client-dynamodb": "^3.645.0",
     "@aws-sdk/lib-dynamodb": "^3.645.0",
     "@faker-js/faker": "^9.0.0",
-    "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/typescript": "^4.0.9",
     "@types/jest": "^29.5.12",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^7",
@@ -57,7 +54,6 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@aws-appsync/utils": "^1.9.0",
     "aws-cdk-lib": "^2.155.0",
     "constructs": "^10.0.5"
   },

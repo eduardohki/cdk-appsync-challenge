@@ -1,6 +1,6 @@
 import * as path from 'node:path';
 import { App, CfnOutput, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
-import { AuthorizationType, Code, Definition, FieldLogLevel, FunctionRuntime, GraphqlApi } from 'aws-cdk-lib/aws-appsync';
+import { AuthorizationType, Definition, FieldLogLevel, GraphqlApi, MappingTemplate } from 'aws-cdk-lib/aws-appsync';
 import { AttributeType, Billing, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
@@ -52,6 +52,48 @@ export class AppSyncStack extends Stack {
       description: 'The GraphQL URL of the AppSync API.',
       value: api.graphqlUrl,
     });
+
+    const dataSource = api.addDynamoDbDataSource('Table', table);
+
+    dataSource.createResolver('OrderTypeCustomerField', {
+      typeName: 'Order',
+      fieldName: 'customer',
+      requestMappingTemplate: MappingTemplate.fromFile(path.resolve(__dirname, 'api/resolver-templates/Order.customer.req.vtl')),
+      responseMappingTemplate: MappingTemplate.fromFile(path.resolve(__dirname, 'api/resolver-templates/Order.customer.res.vtl')),
+    });
+
+    dataSource.createResolver('OrderTypeProductsField', {
+      typeName: 'Order',
+      fieldName: 'products',
+      requestMappingTemplate: MappingTemplate.fromFile(path.resolve(__dirname, 'api/resolver-templates/Order.products.req.vtl')),
+      responseMappingTemplate: MappingTemplate.fromFile(path.resolve(__dirname, 'api/resolver-templates/Order.products.res.vtl')),
+    });
+
+    dataSource.createResolver('OrderProductTypeProductField', {
+      typeName: 'OrderProduct',
+      fieldName: 'product',
+      requestMappingTemplate: MappingTemplate.fromFile(path.resolve(__dirname, 'api/resolver-templates/OrderProduct.product.req.vtl')),
+      responseMappingTemplate: MappingTemplate.fromFile(path.resolve(__dirname, 'api/resolver-templates/OrderProduct.product.res.vtl')),
+    });
+
+    dataSource.createResolver('OrderProductTypeOrderField', {
+      typeName: 'OrderProduct',
+      fieldName: 'order',
+      requestMappingTemplate: MappingTemplate.fromFile(path.resolve(__dirname, 'api/resolver-templates/OrderProduct.order.req.vtl')),
+      responseMappingTemplate: MappingTemplate.fromFile(path.resolve(__dirname, 'api/resolver-templates/OrderProduct.order.res.vtl')),
+    });
+
+    dataSource.createResolver('OrdersQuery', {
+      typeName: 'Query',
+      fieldName: 'orders',
+      requestMappingTemplate: MappingTemplate.fromFile(path.resolve(__dirname, 'api/resolver-templates/Query.orders.req.vtl')),
+      responseMappingTemplate: MappingTemplate.fromFile(path.resolve(__dirname, 'api/resolver-templates/Query.orders.res.vtl')),
+    });
+
+    /** TODO
+     * - Customer.orders
+     * - Product.orders
+     */
   }
 }
 

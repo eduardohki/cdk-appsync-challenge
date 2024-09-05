@@ -7,17 +7,13 @@ const project = new DeployableAwsCdkTypeScriptApp({
   packageManager: javascript.NodePackageManager.PNPM,
   defaultReleaseBranch: 'main',
   cdkVersion: '2.155.0',
-  deps: [
-    '@aws-appsync/utils',
-  ],
+  deps: [],
   devDeps: [
     'deployable-awscdk-app-ts',
     '@faker-js/faker',
     '@aws-sdk/client-cloudformation',
     '@aws-sdk/client-dynamodb',
     '@aws-sdk/lib-dynamodb',
-    '@graphql-codegen/cli',
-    '@graphql-codegen/typescript',
   ],
   projenrcTs: true,
   deployOptions: {
@@ -35,11 +31,6 @@ const project = new DeployableAwsCdkTypeScriptApp({
 project.addTask('db:seed', {
   description: 'Seeds DynamoDB Table with example data for queries in the GraphQL API in dev. This requires that your current shell session is configured with the target account AWS CLI profile.',
   exec: 'npx ts-node src/util/seed.ts',
-});
-
-project.addTask('codegen', {
-  description: 'Runs the code generation for our AppSync API based on our GraphQL schema.',
-  exec: 'npx graphql-codegen -c src/util/codegen.ts',
 });
 
 project.synth();

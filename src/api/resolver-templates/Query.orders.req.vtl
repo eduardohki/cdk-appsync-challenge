@@ -1,0 +1,13 @@
+{
+  "version" : "2018-05-29",
+  "operation" : "Scan",
+  "filter" : {
+    "expression" : "begins_with(#SK, :orderPrefix)",
+    "expressionNames" : {
+      "#SK" : "SK"
+    },
+    "expressionValues" : {
+      ":orderPrefix" : { "S" : "ORDER#" }
+    }
+  }
+}

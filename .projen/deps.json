@@ -17,14 +17,6 @@
       "type": "build"
     },
     {
-      "name": "@graphql-codegen/cli",
-      "type": "build"
-    },
-    {
-      "name": "@graphql-codegen/typescript",
-      "type": "build"
-    },
-    {
       "name": "@types/jest",
       "type": "build"
     },
@@ -98,10 +90,6 @@
     {
       "name": "typescript",
       "type": "build"
-    },
-    {
-      "name": "@aws-appsync/utils",
-      "type": "runtime"
     },
     {
       "name": "aws-cdk-lib",

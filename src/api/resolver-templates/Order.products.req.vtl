@@ -1,0 +1,11 @@
+{
+  "version" : "2018-05-29",
+  "operation" : "Query",
+  "query" : {
+    "expression" : "PK = :pk and begins_with(SK, :productPrefix)",
+    "expressionValues" : {
+      ":pk" : { "S" : "ORDER#${ctx.source.id}" },
+      ":productPrefix" : { "S" : "PRODUCT#" }
+    }
+  }
+}
