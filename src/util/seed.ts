@@ -8,7 +8,7 @@ import { faker } from '@faker-js/faker';
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient());
 const cfClient = new CloudFormationClient();
 
-// CloudFormation stack params
+// CloudFormation stack params, as defined by CDK
 const STACK_NAME = 'AppSyncChallengeDev';
 const CFN_OUTPUT_NAME = 'DynamoDBTableName';
 
