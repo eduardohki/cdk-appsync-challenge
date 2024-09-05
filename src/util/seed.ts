@@ -72,7 +72,7 @@ const generateFakeOrder = (customerEmail: string, productIds: string[]) => {
       totalAmount: orderProducts.reduce(
         (sum, product) => {
           const amount = product.quantity * parseFloat(faker.commerce.price());
-          return sum + parseFloat(amount.toFixed(2));
+          return parseFloat((sum + amount).toFixed(2));
         },
         0,
       ),
