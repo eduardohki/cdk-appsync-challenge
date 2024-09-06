@@ -51,9 +51,9 @@ const project = new DeployableAwsCdkTypeScriptApp({
 project.vscode?.extensions.addRecommendations(
   'dbaeumer.vscode-eslint',
   'esbenp.prettier-vscode',
-  'vscode-graphql',
-  'velocity',
-  'mermaid-markdown-syntax-highlighting',
+  'GraphQL.vscode-graphql',
+  'sodatea.velocity',
+  'bpruitt-goddard.mermaid-markdown-syntax-highlighting',
 );
 
 project.vscode?.settings.addSetting(
