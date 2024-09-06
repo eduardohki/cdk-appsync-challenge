@@ -151,10 +151,39 @@ export class AppSyncStack extends Stack {
       ),
     });
 
-    /** TODO
-     * - Customer.orders
-     * - Product.orders
-     */
+    dataSource.createResolver('CustomerTypeOrdersField', {
+      typeName: 'Customer',
+      fieldName: 'orders',
+      requestMappingTemplate: MappingTemplate.fromFile(
+        path.resolve(
+          __dirname,
+          'api/resolver-templates/Customer.orders.req.vtl',
+        ),
+      ),
+      responseMappingTemplate: MappingTemplate.fromFile(
+        path.resolve(
+          __dirname,
+          'api/resolver-templates/Customer.orders.res.vtl',
+        ),
+      ),
+    });
+
+    dataSource.createResolver('ProductTypeOrdersField', {
+      typeName: 'Product',
+      fieldName: 'orders',
+      requestMappingTemplate: MappingTemplate.fromFile(
+        path.resolve(
+          __dirname,
+          'api/resolver-templates/Product.orders.req.vtl',
+        ),
+      ),
+      responseMappingTemplate: MappingTemplate.fromFile(
+        path.resolve(
+          __dirname,
+          'api/resolver-templates/Product.orders.res.vtl',
+        ),
+      ),
+    });
   }
 }
 

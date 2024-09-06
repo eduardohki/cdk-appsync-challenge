@@ -1,0 +1,5 @@
+#if ($ctx.result.items.size() > 0)
+  $util.toJson($ctx.result.items)
+#else
+  $util.toJson([])
+#end

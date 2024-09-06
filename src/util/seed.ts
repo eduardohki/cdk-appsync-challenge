@@ -60,6 +60,7 @@ const generateFakeProduct = () => {
   return {
     PK: pk, // Product ID as PK
     SK: pk, // SK is the same as PK
+    id: productId,
     name: faker.commerce.productName(),
     price: parseFloat(faker.commerce.price()), // Convert price to float
   };

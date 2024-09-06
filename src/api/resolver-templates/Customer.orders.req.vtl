@@ -1,0 +1,11 @@
+{
+  "version": "2018-05-29",
+  "operation": "Query",
+  "query": {
+    "expression": "PK = :pk AND begins_with(SK, :skPrefix)",
+    "expressionValues": {
+      ":pk": { "S": "CUSTOMER#${ctx.source.email}" },
+      ":skPrefix": { "S": "ORDER#" }
+    }
+  }
+}

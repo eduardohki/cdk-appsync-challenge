@@ -53,6 +53,7 @@ project.vscode?.extensions.addRecommendations(
   'esbenp.prettier-vscode',
   'vscode-graphql',
   'velocity',
+  'mermaid-markdown-syntax-highlighting',
 );
 
 project.vscode?.settings.addSetting(
@@ -72,7 +73,7 @@ project.addTask('db:seed', {
 const docgen = project.tasks.tryFind('docgen');
 if (docgen) {
   docgen.reset(
-    'typedoc src --disableSources --exclude src/util/*.ts --entryPointStrategy expand --highlightLanguages graphql --out docs/',
+    'typedoc src --disableSources --exclude src/util/*.ts --entryPointStrategy expand --highlightLanguages graphql --highlightLanguages mermaid --out docs/',
   );
 }
 
