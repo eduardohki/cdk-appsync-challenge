@@ -3,6 +3,8 @@ import { NodePackageManager } from 'projen/lib/javascript';
 import { TrailingComma } from 'projen/lib/javascript/prettier';
 
 const project = new DeployableAwsCdkTypeScriptApp({
+  authorName: 'Eduardo Hernacki',
+  authorEmail: 'services@runlevel0.me',
   name: 'cdk-appsync-challenge',
   description: 'CDK AppSync API Challenge',
   packageManager: NodePackageManager.PNPM,
@@ -10,6 +12,7 @@ const project = new DeployableAwsCdkTypeScriptApp({
   minNodeVersion: '20.17.0',
   cdkVersion: '2.155.0',
   defaultReleaseBranch: 'main',
+  docgen: true,
   deps: [],
   devDeps: [
     'deployable-awscdk-app-ts',
@@ -24,12 +27,12 @@ const project = new DeployableAwsCdkTypeScriptApp({
       target: 'ES2022',
       lib: ['ES2022'],
     },
+    include: ['src/**/*.ts'],
   },
   prettier: true,
   prettierOptions: {
     settings: {
       singleQuote: true,
-      // semi: false,
       trailingComma: TrailingComma.ALL,
     },
   },
@@ -48,18 +51,29 @@ const project = new DeployableAwsCdkTypeScriptApp({
 project.vscode?.extensions.addRecommendations(
   'dbaeumer.vscode-eslint',
   'esbenp.prettier-vscode',
+  'vscode-graphql',
+  'velocity',
 );
 
 project.vscode?.settings.addSetting(
   'editor.defaultFormatter',
   'esbenp.prettier-vscode',
 );
+
 project.vscode?.settings.addSetting('editor.formatOnSave', true);
 
 project.addTask('db:seed', {
   description:
-    'Seeds DynamoDB Table with example data for queries in the GraphQL API in dev. Note: this requires that your current shell session is loaded with the target account via AWS CLI profile.',
+    'Seeds DynamoDB Table with random data for queries in the GraphQL API in dev. Note: this requires that your current shell session is loaded with the target account via AWS CLI profile.',
   exec: 'npx ts-node src/util/seed.ts',
 });
+
+// change docgen parameters to fix warnings and render graphql in README.md
+const docgen = project.tasks.tryFind('docgen');
+if (docgen) {
+  docgen.reset(
+    'typedoc src --disableSources --exclude src/util/*.ts --entryPointStrategy expand --highlightLanguages graphql --out docs/',
+  );
+}
 
 project.synth();

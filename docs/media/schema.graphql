@@ -1,0 +1,49 @@
+# Customer type has a one-to-many relationship with Order
+type Customer @model {
+	email: AWSEmail!	# primary key
+	fullName: String!
+	orders: [Order]
+		@connection(keyName: "byCustomer",fields: ["email"])
+}
+
+# Order type has a many-to-many relationship with Product through OrderProduct
+type Order @model
+@key(name: "byCustomer", fields: ["customerEmail"]) {
+  id: ID!
+  date: AWSDateTime!
+  totalAmount: Float!  # Total amount to be calculated
+  customerEmail: AWSEmail!  # Foreign key referencing the customer's email
+  customer: Customer @connection(fields: ["customerEmail"])
+  products: [OrderProduct] @connection(keyName: "byOrder", fields: ["id"])
+}
+
+# Many-to-Many relationship between Order and Product
+type OrderProduct @model
+@key(name: "byOrder", fields: ["orderId","productId"])
+@key(name: "byProduct", fields: ["productId","orderId"]) {
+	id: ID!
+	orderId: ID!
+	productId: ID!
+	quantity: Int!
+	order: Order
+		@connection(fields: ["orderId"])
+	product: Product
+		@connection(fields: ["productId"])
+}
+
+# Product type is associated with Order through OrderProduct
+type Product @model {
+	id: ID!
+	name: String!
+	price: Float!
+	orders: [OrderProduct]
+		@connection(keyName: "byProduct", fields: ["id"])
+}
+
+type Query {
+	orders: [Order!]!
+}
+
+schema {
+	query: Query
+}

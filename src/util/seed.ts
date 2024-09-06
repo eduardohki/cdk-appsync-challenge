@@ -1,3 +1,7 @@
+/**
+ * Script used for seeding data into the DynamoDB Table used in the AppSync API.
+ */
+
 /* eslint-disable import/no-extraneous-dependencies */
 import {
   CloudFormationClient,

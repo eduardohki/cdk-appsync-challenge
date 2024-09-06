@@ -84,7 +84,7 @@
     },
     "db:seed": {
       "name": "db:seed",
-      "description": "Seeds DynamoDB Table with example data for queries in the GraphQL API in dev. Note: this requires that your current shell session is loaded with the target account via AWS CLI profile.",
+      "description": "Seeds DynamoDB Table with random data for queries in the GraphQL API in dev. Note: this requires that your current shell session is loaded with the target account via AWS CLI profile.",
       "steps": [
         {
           "exec": "npx ts-node src/util/seed.ts"
@@ -145,6 +145,15 @@
         }
       ]
     },
+    "docgen": {
+      "name": "docgen",
+      "description": "Generate TypeScript API reference docs/",
+      "steps": [
+        {
+          "exec": "typedoc src --disableSources --exclude src/util/*.ts --entryPointStrategy expand --highlightLanguages graphql --out docs/"
+        }
+      ]
+    },
     "eject": {
       "name": "eject",
       "description": "Remove projen from the project",
@@ -193,6 +202,9 @@
       "name": "post-compile",
       "description": "Runs after successful compilation",
       "steps": [
+        {
+          "spawn": "docgen"
+        },
         {
           "spawn": "synth:silent"
         }
@@ -295,13 +307,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-sdk/client-cloudformation,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb,@faker-js/faker,@types/jest,deployable-awscdk-app-ts,esbuild,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,jest,prettier,projen,ts-jest,ts-node,typescript"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-sdk/client-cloudformation,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb,@faker-js/faker,@types/jest,deployable-awscdk-app-ts,esbuild,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,jest,prettier,projen,ts-jest,ts-node,typedoc,typescript"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @aws-sdk/client-cloudformation @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb @faker-js/faker @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk commit-and-tag-version deployable-awscdk-app-ts esbuild eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jest jest-junit prettier projen ts-jest ts-node typescript aws-cdk-lib constructs"
+          "exec": "pnpm update @aws-sdk/client-cloudformation @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb @faker-js/faker @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk commit-and-tag-version deployable-awscdk-app-ts esbuild eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jest jest-junit prettier projen ts-jest ts-node typedoc typescript aws-cdk-lib constructs"
         },
         {
           "exec": "npx projen"
