@@ -1,7 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { CloudFormationClient, DescribeStacksCommand } from '@aws-sdk/client-cloudformation';
+import {
+  CloudFormationClient,
+  DescribeStacksCommand,
+} from '@aws-sdk/client-cloudformation';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, BatchWriteCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  BatchWriteCommand,
+} from '@aws-sdk/lib-dynamodb';
 import { faker } from '@faker-js/faker';
 
 // Initialize AWS Clients
@@ -13,12 +19,17 @@ const STACK_NAME = 'AppSyncChallengeDev';
 const CFN_OUTPUT_NAME = 'DynamoDBTableName';
 
 // Function to fetch table name from CloudFormation stack outputs
-const getTableNameFromStack = async (stackName: string, outputName: string): Promise<string | undefined> => {
+const getTableNameFromStack = async (
+  stackName: string,
+  outputName: string,
+): Promise<string | undefined> => {
   try {
     const command = new DescribeStacksCommand({ StackName: stackName });
     const response = await cfClient.send(command);
     const stack = response.Stacks?.[0];
-    const tableNameOutput = stack?.Outputs?.find(output => output.OutputKey === outputName);
+    const tableNameOutput = stack?.Outputs?.find(
+      (output) => output.OutputKey === outputName,
+    );
     return tableNameOutput?.OutputValue;
   } catch (error) {
     console.error('Error fetching stack outputs', error);
@@ -69,13 +80,10 @@ const generateFakeOrder = (customerEmail: string, productIds: string[]) => {
       id: orderId,
       date: orderDate,
       customerEmail: customerEmail,
-      totalAmount: orderProducts.reduce(
-        (sum, product) => {
-          const amount = product.quantity * parseFloat(faker.commerce.price());
-          return parseFloat((sum + amount).toFixed(2));
-        },
-        0,
-      ),
+      totalAmount: orderProducts.reduce((sum, product) => {
+        const amount = product.quantity * parseFloat(faker.commerce.price());
+        return parseFloat((sum + amount).toFixed(2));
+      }, 0),
     },
     orderProducts,
   };
@@ -136,7 +144,10 @@ const seedData = async () => {
   // Generate 5 fake orders
   for (const customer of customers) {
     const productIds = products.map((p) => p.PK.split('#')[1]);
-    const { order, orderProducts } = generateFakeOrder(customer.email, productIds);
+    const { order, orderProducts } = generateFakeOrder(
+      customer.email,
+      productIds,
+    );
 
     const orderRequest = {
       PutRequest: {

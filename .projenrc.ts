@@ -1,12 +1,15 @@
 import { DeployableAwsCdkTypeScriptApp } from 'deployable-awscdk-app-ts';
-import { javascript } from 'projen';
+import { NodePackageManager } from 'projen/lib/javascript';
+import { TrailingComma } from 'projen/lib/javascript/prettier';
 
 const project = new DeployableAwsCdkTypeScriptApp({
   name: 'cdk-appsync-challenge',
   description: 'CDK AppSync API Challenge',
-  packageManager: javascript.NodePackageManager.PNPM,
-  defaultReleaseBranch: 'main',
+  packageManager: NodePackageManager.PNPM,
+  pnpmVersion: '9',
+  minNodeVersion: '20.17.0',
   cdkVersion: '2.155.0',
+  defaultReleaseBranch: 'main',
   deps: [],
   devDeps: [
     'deployable-awscdk-app-ts',
@@ -16,6 +19,20 @@ const project = new DeployableAwsCdkTypeScriptApp({
     '@aws-sdk/lib-dynamodb',
   ],
   projenrcTs: true,
+  tsconfig: {
+    compilerOptions: {
+      target: 'ES2022',
+      lib: ['ES2022'],
+    },
+  },
+  prettier: true,
+  prettierOptions: {
+    settings: {
+      singleQuote: true,
+      // semi: false,
+      trailingComma: TrailingComma.ALL,
+    },
+  },
   deployOptions: {
     environments: [
       {
@@ -28,8 +45,20 @@ const project = new DeployableAwsCdkTypeScriptApp({
   },
 });
 
+project.vscode?.extensions.addRecommendations(
+  'dbaeumer.vscode-eslint',
+  'esbenp.prettier-vscode',
+);
+
+project.vscode?.settings.addSetting(
+  'editor.defaultFormatter',
+  'esbenp.prettier-vscode',
+);
+project.vscode?.settings.addSetting('editor.formatOnSave', true);
+
 project.addTask('db:seed', {
-  description: 'Seeds DynamoDB Table with example data for queries in the GraphQL API in dev. This requires that your current shell session is configured with the target account AWS CLI profile.',
+  description:
+    'Seeds DynamoDB Table with example data for queries in the GraphQL API in dev. Note: this requires that your current shell session is loaded with the target account via AWS CLI profile.',
   exec: 'npx ts-node src/util/seed.ts',
 });
 

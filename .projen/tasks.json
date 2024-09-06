@@ -84,7 +84,7 @@
     },
     "db:seed": {
       "name": "db:seed",
-      "description": "Seeds DynamoDB Table with example data for queries in the GraphQL API in dev. This requires that your current shell session is configured with the target account AWS CLI profile.",
+      "description": "Seeds DynamoDB Table with example data for queries in the GraphQL API in dev. Note: this requires that your current shell session is loaded with the target account via AWS CLI profile.",
       "steps": [
         {
           "exec": "npx ts-node src/util/seed.ts"
@@ -295,13 +295,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-sdk/client-cloudformation,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb,@faker-js/faker,@types/jest,deployable-awscdk-app-ts,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,projen,ts-jest,ts-node,typescript"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-sdk/client-cloudformation,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb,@faker-js/faker,@types/jest,deployable-awscdk-app-ts,esbuild,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,jest,prettier,projen,ts-jest,ts-node,typescript"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @aws-sdk/client-cloudformation @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb @faker-js/faker @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk commit-and-tag-version deployable-awscdk-app-ts esbuild eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit projen ts-jest ts-node typescript aws-cdk-lib constructs"
+          "exec": "pnpm update @aws-sdk/client-cloudformation @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb @faker-js/faker @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk commit-and-tag-version deployable-awscdk-app-ts esbuild eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jest jest-junit prettier projen ts-jest ts-node typescript aws-cdk-lib constructs"
         },
         {
           "exec": "npx projen"

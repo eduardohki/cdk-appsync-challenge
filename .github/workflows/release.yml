@@ -28,7 +28,11 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: "7"
+          version: "9"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.17.0
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
       - name: release
@@ -65,7 +69,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 20.17.0
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
@@ -98,7 +102,11 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: "7"
+          version: "9"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.17.0
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
       - name: Configure AWS Credentials
