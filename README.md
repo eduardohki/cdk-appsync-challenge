@@ -106,7 +106,7 @@ _Note_: The Customer `email` works as an `ID`
 | -------------- | -------------- | ---------- | ------------- | -------------- |
 | `PRODUCT#<id>` | `PRODUCT#<id>` | `<id>`     | `<name>`      | `<price>`      |
 
-### Order Entity
+#### Order Entity
 
 | PK : String        | SK : String  | customerEmail : String | date : String (ISO8601) | id : String | totalAmount: Number |
 | ------------------ | ------------ | ---------------------- | ----------------------- | ----------- | ------------------- |
