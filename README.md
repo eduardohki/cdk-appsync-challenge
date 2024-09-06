@@ -108,8 +108,8 @@ _Note_: The Customer `email` works as an `ID`
 
 ### Order Entity
 
-| PK : String        | SK : String  | customerEmail : String | date : String (ISO8601) | id : String  | totalAmount: Number |
-| ------------------ | ------------ | ---------------------- | ----------------------- | ------------ | ------------------- |
-| `CUSTOMER#<email>` | `ORDER#<id>` | `<customerEmail>`      | `<dateTime>`            | `<order id>` | `<totalAmount>`     |
+| PK : String        | SK : String  | customerEmail : String | date : String (ISO8601) | id : String | totalAmount: Number |
+| ------------------ | ------------ | ---------------------- | ----------------------- | ----------- | ------------------- |
+| `CUSTOMER#<email>` | `ORDER#<id>` | `<customerEmail>`      | `<dateTime>`            | `<orderId>` | `<totalAmount>`     |
 
 _Note_: This approach allows us to query all `Orders` from a given `Customer`, but has the downside of requiring a `Scan` operation when listing all `Orders` as is given in the example query above.

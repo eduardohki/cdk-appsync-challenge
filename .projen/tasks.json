@@ -150,7 +150,7 @@
       "description": "Generate TypeScript API reference docs/",
       "steps": [
         {
-          "exec": "typedoc src --disableSources --exclude src/util/*.ts --entryPointStrategy expand --highlightLanguages graphql --out docs/"
+          "exec": "typedoc src --disableSources --exclude src/util/*.ts --entryPointStrategy expand --highlightLanguages graphql --highlightLanguages mermaid --out docs/"
         }
       ]
     },

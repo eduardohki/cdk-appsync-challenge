@@ -4,6 +4,7 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "vscode-graphql",
-    "velocity"
+    "velocity",
+    "mermaid-markdown-syntax-highlighting"
   ]
 }
